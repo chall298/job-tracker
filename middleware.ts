@@ -25,7 +25,7 @@ export async function middleware(request: NextRequest) {
         }
     )
 
-    // Refreshes session if expired
+    // Refreshes session if expired**
     await supabase.auth.getUser
 
     return response
