@@ -1,5 +1,12 @@
 import { createClient } from '@/utils/supabase/server'
 
+function formatDate(dateString: string): string {
+    // dateString is "YYYY-MM-DD" — parse without timezone conversion
+    const [year, month, day] = dateString.split('-').map(Number)
+    const date = new Date(year, month - 1, day) // month is 0-indexed
+    return date.toLocaleDateString()
+  }
+
 const STATUS_COLORS: Record<string, string> = {
   applied: 'bg-blue-100 text-blue-800',
   interviewing: 'bg-yellow-100 text-yellow-800',
@@ -42,7 +49,7 @@ export default async function ApplicationsList() {
               <p className="font-semibold">{app.company}</p>
               <p className="text-sm text-gray-700">{app.role}</p>
               <p className="text-xs text-gray-500 mt-1">
-                Applied {new Date(app.date_applied).toLocaleDateString()}
+                Applied {formatDate(app.date_applied)}
               </p>
               {app.notes && (
                 <p className="text-sm text-gray-600 mt-2">{app.notes}</p>

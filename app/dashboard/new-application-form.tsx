@@ -7,6 +7,7 @@ export default function NewApplicationForm() {
     const [isOpen, setIsOpen] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [submitting, setSubmitting] = useState(false)
+    const [status, setStatus] = useState('applied')
 
     async function handleSubmit(formData: FormData) {
         setSubmitting(true)
@@ -14,6 +15,7 @@ export default function NewApplicationForm() {
         try{
             await createApplication(formData)
             setIsOpen(false)
+            setStatus('applied')
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Something went wrong')
         } finally {
@@ -34,68 +36,69 @@ export default function NewApplicationForm() {
 
     return (
         <div className="p-4 border rounded-md bg-gray-50">
-      <h2 className="font-semibold mb-4">New application</h2>
+      <h2 className="font-semibold mb-4 text-gray-900 bg-white">New application</h2>
 
       <form action={handleSubmit} className="space-y-3">
         <div>
-          <label className="block text-sm font-medium mb-1">Company</label>
+          <label className="block text-sm font-medium mb-1 text-gray-900 bg-white">Company</label>
           <input
             name="company"
             required
-            className="w-full px-3 py-2 border rounded-md"
+            className="w-full px-3 py-2 border rounded-md text-gray-900 bg-white"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Role</label>
+          <label className="block text-sm font-medium mb-1 text-gray-900 bg-white">Role</label>
           <input
             name="role"
             required
-            className="w-full px-3 py-2 border rounded-md"
+            className="w-full px-3 py-2 border rounded-md text-gray-900 bg-white"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Date applied</label>
+          <label className="block text-sm font-medium mb-1 text-gray-900 bg-white">Date applied</label>
           <input
             name="date_applied"
             type="date"
             required
             defaultValue={new Date().toISOString().split('T')[0]}
-            className="w-full px-3 py-2 border rounded-md"
+            className="w-full px-3 py-2 border rounded-md text-gray-900 bg-white"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Status</label>
-          <select
-            name="status"
-            defaultValue="applied"
-            className="w-full px-3 py-2 border rounded-md"
-          >
-            <option value="applied">Applied</option>
-            <option value="interviewing">Interviewing</option>
-            <option value="offer">Offer</option>
-            <option value="rejected">Rejected</option>
-            <option value="ghosted">Ghosted</option>
-          </select>
+            <label className="block text-sm font-medium mb-1">Status</label>
+            <select
+                name="status"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="w-full px-3 py-2 border rounded-md text-gray-900 bg-white"
+            >
+                <option value="applied">Applied</option>
+                <option value="interviewing">Interviewing</option>
+                <option value="offer">Offer</option>
+                <option value="rejected">Rejected</option>
+                <option value="ghosted">Ghosted</option>
+            </select>
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Job posting URL (optional)</label>
+          <label className="block text-sm font-medium mb-1 text-gray-900 bg-white">Job posting URL (optional)</label>
           <input
             name="url"
             type="url"
-            className="w-full px-3 py-2 border rounded-md"
+            className="w-full px-3 py-2 border rounded-md text-gray-900 bg-white"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-1">Notes (optional)</label>
+          <label className="block text-sm font-medium mb-1 text-gray-900 bg-white">Notes (optional)</label>
           <textarea
             name="notes"
             rows={3}
-            className="w-full px-3 py-2 border rounded-md"
+            className="w-full px-3 py-2 border rounded-md text-gray-900 bg-white"
           />
         </div>
 
@@ -113,7 +116,7 @@ export default function NewApplicationForm() {
             type="button"
             onClick={() => setIsOpen(false)}
             disabled={submitting}
-            className="px-4 py-2 border rounded-md text-sm"
+            className="px-4 py-2 border rounded-md text-sm text-gray-900 bg-white"
           >
             Cancel
           </button>
